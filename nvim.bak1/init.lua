@@ -1,0 +1,6 @@
+require("global.options")
+require("global.keymaps")
+require("global.autocmds")
+require("global.lsp")
+require("global.wsl")
+require("global.lazy")

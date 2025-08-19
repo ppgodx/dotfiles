@@ -1,0 +1,42 @@
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+
+# Cache and log files
+*.log
+cache/
+logs/
+tmp/
+temp/
+
+# Sensitive files (tokens, credentials, etc.)
+*secret*
+*token*
+*credential*
+*password*
+*key*
+*auth*
+.env
+.env.local
+
+# Common config directories that might contain sensitive data
+configstore/
+github-copilot/
+
+# IDE and editor specific
+.vscode/settings.json
+.idea/
+
+# Backup files
+*.backup
+*.bak
+*~
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
