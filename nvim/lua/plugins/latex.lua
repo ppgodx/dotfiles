@@ -46,9 +46,9 @@ return {
       vim.g.vimtex_fold_enabled = 1
       vim.g.vimtex_fold_manual = 1
       
-      -- Syntax
-      vim.g.vimtex_syntax_enabled = 1
-      vim.g.vimtex_syntax_conceal_disable = 0
+      -- Syntax - Let Treesitter handle highlighting
+      vim.g.vimtex_syntax_enabled = 0
+      vim.g.vimtex_syntax_conceal_disable = 1
       
       -- Mappings
       vim.g.vimtex_mappings_enabled = 1

@@ -3,6 +3,10 @@ return {
     "kaarmu/typst.vim",
     ft = "typst",
     lazy = false,
+    config = function()
+      -- Let Treesitter handle syntax highlighting
+      vim.g.typst_syntax_highlight = 0
+    end,
   },
   {
     "chomosuke/typst-preview.nvim",
