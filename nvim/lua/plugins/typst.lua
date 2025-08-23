@@ -27,14 +27,17 @@ return {
         -- Setting this true will show debug information
         debug = false,
 
-        -- Custom format string to open the output link
-        -- provided with placeholders:
-        -- %s -> path to output
-        -- %l -> line number
-        -- %c -> column number
-        -- the default open method is using xdg-open, which can be
-        -- overridden by setting the open_cmd option
-        -- open_cmd = 'sioyek --reuse-window %s --forward-search-file %f --forward-search-line %l',
+        -- 使用内置浏览器预览，避免打开外部浏览器
+        -- 这会在 Neovim 内部启动一个服务器，你可以通过浮动终端访问
+        open_cmd = nil,
+        
+        -- 设置预览的浏览器命令（如果你想用特定浏览器）
+        -- 例如：'firefox %s' 或 'chrome %s'
+        -- 留空则使用系统默认浏览器
+        
+        -- 设置为 false 可以避免自动打开浏览器
+        -- 手动访问 http://127.0.0.1:端口号 查看预览
+        follow_cursor = true,
         
         -- This function will be called to determine the root of the typst project
         get_root = function(path_of_main_file)
