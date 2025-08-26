@@ -23,22 +23,9 @@ return {
     config = function()
       require("copilot").setup({
         filetypes = {
-          ["*"] = false,
-          avante = true,
-          c = true,
-          cpp = true,
-          go = true,
-          help = true,
-          html = true,
-          java = true,
-          javascript = true,
-          javascriptreact = true,
-          lua = true,
-          markdown = true,
-          python = true,
-          rust = true,
-          typescript = true,
-          typescriptreact = true,
+          ["*"] = true,
+          gitcommit = false,
+          gitrebase = false,
         },
       })
     end,
@@ -184,7 +171,7 @@ return {
         function()
           require("avante.api").ask()
         end,
-        desc = "Ask",
+        desc = "AI对话",
         mode = { "n", "v" },
       },
       {
@@ -192,28 +179,28 @@ return {
         function()
           require("avante.api").edit()
         end,
-        desc = "Edit",
+        desc = "AI编辑",
         mode = { "n", "v" },
       },
       {
         "<leader>af",
         "<cmd>AvanteClear<cr>",
         mode = { "n", "v" },
-        desc = "Clear",
+        desc = "清除对话",
       },
       {
         "<leader>a?",
         function()
           require("avante.api").select_model()
         end,
-        desc = "Select model",
+        desc = "选择模型",
         mode = "n",
       },
       {
         "<leader>ar",
         create_avante_call(avante_prompts.refactor),
         mode = { "n", "v" },
-        desc = "Refactor Code",
+        desc = "重构代码",
       },
       {
         "<leader>av",
@@ -225,55 +212,55 @@ return {
           end
         end,
         mode = { "n", "v" },
-        desc = "Code Review",
+        desc = "代码审查",
       },
       {
         "<leader>aA",
         create_avante_call(avante_prompts.architecture_suggestion),
         mode = { "n", "v" },
-        desc = "Architecture Suggestions",
+        desc = "架构建议",
       },
       {
         "<leader>al",
         create_avante_call(avante_prompts.readability_analysis),
-        desc = "Code Readability Analysis",
+        desc = "可读性分析",
         mode = { "n", "v" },
       },
       {
         "<leader>ao",
         create_avante_call(avante_prompts.optimize_code),
         mode = { "n", "v" },
-        desc = "Optimize Code",
+        desc = "代码优化",
       },
       {
         "<leader>ax",
         create_avante_call(avante_prompts.explain_code, true),
         mode = { "n", "v" },
-        desc = "Explain Code",
+        desc = "解释代码",
       },
       {
         "<leader>ab",
         create_avante_call(avante_prompts.fix_bugs, true),
         mode = { "n", "v" },
-        desc = "Fix Bugs",
+        desc = "修复错误",
       },
       {
         "<leader>au",
         create_avante_call(avante_prompts.add_tests),
         mode = { "n", "v" },
-        desc = "Add Tests",
+        desc = "添加测试",
       },
       {
         "<leader>az",
         create_avante_call(avante_prompts.security_review),
         mode = { "n", "v" },
-        desc = "Security Analysis",
+        desc = "安全分析",
       },
       {
         "<leader>am",
         create_avante_call(avante_prompts.summarize),
         mode = { "n", "v" },
-        desc = "Summarize text",
+        desc = "文本总结",
       },
       {
         "<leader>ap",
@@ -284,7 +271,7 @@ return {
           create_avante_call(prompt)()
         end,
         mode = { "n", "v" },
-        desc = "Language-specific improvements",
+        desc = "语言优化",
       },
     },
   },

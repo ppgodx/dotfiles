@@ -8,6 +8,15 @@ local icons = {
 return {
   "neovim/nvim-lspconfig",
   opts = function(_, opts)
+    -- 确保不加载blink.cmp能力
+    local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+    local default_capabilities = vim.tbl_deep_extend(
+      "force",
+      {},
+      vim.lsp.protocol.make_client_capabilities(),
+      has_cmp and cmp_nvim_lsp.default_capabilities() or {}
+    )
+    opts.capabilities = default_capabilities
     local Keys = require("lazyvim.plugins.lsp.keymaps").get()
     -- stylua: ignore
     vim.list_extend(Keys, {

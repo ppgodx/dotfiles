@@ -54,7 +54,7 @@ opt.confirm = true -- make vim prompt me to save before doing destructive things
 opt.autowriteall = true -- automatically :write before running commands and changing files
 global.editorconfig = true
 -- 禁用blink.cmp
--- global.lazyvim_blink_main = true
+vim.g.lazyvim_blink_main = false
 opt.backupskip = "/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*,.vault.vim"
 opt.ignorecase = true -- Case insensitive search
 opt.smartcase = true -- Case sensitive when uppercase

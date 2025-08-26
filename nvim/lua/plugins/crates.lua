@@ -6,6 +6,10 @@ return {
       crates = {
         enabled = true,
       },
+      -- 明确禁用blink.cmp集成
+      blink = {
+        enabled = false,
+      },
     },
     lsp = {
       enabled = true,
