@@ -11,6 +11,18 @@ return {
       question_header = "## User ",
       answer_header = "## Copilot ",
       error_header = "## Error ",
+      window = {
+        layout = "vertical", -- 'vertical', 'horizontal', 'float', 'replace'
+        width = 0.5, -- fractional width of parent, or absolute width in columns when > 1
+        height = 0.8, -- fractional height of parent, or absolute height in rows when > 1
+        -- row = nil, -- row position of the window, default is centered
+        -- col = nil, -- column position of the window, default is centered
+        relative = "editor", -- 'editor', 'win', 'cursor', 'mouse'
+        border = "single", -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
+        title = "Copilot Chat", -- title of the window
+        footer = nil, -- footer of the window
+        zindex = 1, -- determines if window is on top or below other floating windows
+      },
       prompts = {
         -- Code related prompts
         Explain = "请用中文详细解释以下代码的工作原理和功能。",
@@ -134,7 +146,7 @@ return {
         vim.cmd("CopilotChat 请为这段代码中的变量和函数提供更好的命名建议，用中文解释")
       end, desc = "Copilot对话 - 优化命名" },
       -- Chat with Copilot in visual mode
-      { "<leader>ccv", ":CopilotChatVisual 请用中文", mode = "x", desc = "Copilot对话 - 可视模式对话" },
+      { "<leader>ccV", ":CopilotChatVisual 请用中文", mode = "x", desc = "Copilot对话 - 可视模式对话" },
       { "<leader>ccx", ":CopilotChatInline 请用中文<cr>", mode = "x", desc = "Copilot对话 - 内联聊天" },
       -- Custom input for CopilotChat
       { "<leader>cci", function()
@@ -169,6 +181,57 @@ return {
       { "<leader>ccv", "<cmd>CopilotChatToggle<cr>", desc = "Copilot对话 - 切换窗口" },
       -- Copilot Chat Models
       { "<leader>cc?", "<cmd>CopilotChatModels<cr>", desc = "Copilot对话 - 选择模型" },
+      -- Resize CopilotChat window
+      { "<leader>ccr", function()
+        local current_config = require("CopilotChat").config.window
+        local choices = {
+          "小窗口 (30% x 60%)",
+          "默认窗口 (50% x 80%)",
+          "大窗口 (70% x 90%)",
+          "全屏窗口 (90% x 95%)",
+          "浮动窗口 (80列 x 20行)",
+          "水平分割 (100% x 30%)",
+          "垂直分割 (40% x 100%)"
+        }
+        
+        vim.ui.select(choices, {
+          prompt = "选择 CopilotChat 窗口大小:",
+          kind = "copilot_chat_resize"
+        }, function(choice, idx)
+          if not choice then return end
+          
+          local new_config = {}
+          if idx == 1 then -- 小窗口
+            new_config = { layout = "vertical", width = 0.3, height = 0.6, relative = "editor", border = "single" }
+          elseif idx == 2 then -- 默认窗口
+            new_config = { layout = "vertical", width = 0.5, height = 0.8, relative = "editor", border = "single" }
+          elseif idx == 3 then -- 大窗口
+            new_config = { layout = "vertical", width = 0.7, height = 0.9, relative = "editor", border = "single" }
+          elseif idx == 4 then -- 全屏窗口
+            new_config = { layout = "vertical", width = 0.9, height = 0.95, relative = "editor", border = "single" }
+          elseif idx == 5 then -- 浮动窗口
+            new_config = { layout = "float", width = 80, height = 20, relative = "editor", border = "rounded" }
+          elseif idx == 6 then -- 水平分割
+            new_config = { layout = "horizontal", width = 1.0, height = 0.3, relative = "editor", border = "single" }
+          elseif idx == 7 then -- 垂直分割
+            new_config = { layout = "vertical", width = 0.4, height = 1.0, relative = "editor", border = "single" }
+          end
+          
+          -- 更新配置
+          local chat = require("CopilotChat")
+          chat.config.window = vim.tbl_deep_extend("force", chat.config.window, new_config)
+          
+          -- 如果窗口已经打开，关闭并重新打开
+          if chat.buf and vim.api.nvim_buf_is_valid(chat.buf) then
+            chat.close()
+            vim.defer_fn(function()
+              chat.open()
+            end, 100)
+          end
+          
+          vim.notify("CopilotChat 窗口大小已更新: " .. choice, vim.log.levels.INFO)
+        end)
+      end, desc = "Copilot对话 - 调整窗口大小" },
     },
   },
 }

@@ -28,9 +28,104 @@ local patterns = {
   },
 }
 
+-- 动态获取主题颜色用于 bufferline
+local function get_bufferline_colors()
+  local current_theme = vim.g.colors_name or "default"
+  
+  if current_theme == "catppuccin-mocha" or current_theme == "catppuccin" then
+    return {
+      bg = "#11111b",           -- catppuccin crust
+      fg = "#cdd6f4",           -- catppuccin text
+      inactive_bg = "#181825",  -- catppuccin mantle
+      inactive_fg = "#9399b2",  -- catppuccin subtext0
+      selected_bg = "#313244",  -- catppuccin surface0
+      selected_fg = "#cdd6f4",  -- catppuccin text
+    }
+  elseif current_theme == "tokyonight-moon" or string.find(current_theme or "", "tokyonight") then
+    return {
+      bg = "#1e2030",           -- tokyonight bg
+      fg = "#c8d3f5",           -- tokyonight fg
+      inactive_bg = "#1b1d2b",  -- tokyonight bg_dark
+      inactive_fg = "#828bb8",  -- tokyonight comment
+      selected_bg = "#2f334d",  -- tokyonight bg_highlight
+      selected_fg = "#c8d3f5",  -- tokyonight fg
+    }
+  else
+    return {
+      bg = "#0d1117",           -- 深色背景
+      fg = "#c9d1d9",           -- 主文本色
+      inactive_bg = "#161b22",  -- 稍浅背景
+      inactive_fg = "#7d8590",  -- 非活动文本
+      selected_bg = "#21262d",  -- 选中背景
+      selected_fg = "#f0f6fc",  -- 选中文本
+    }
+  end
+end
+
 return {
   "akinsho/bufferline.nvim",
-  opts = {
+  opts = function()
+    local buf_colors = get_bufferline_colors()
+    return {
+    highlights = {
+      background = {
+        fg = buf_colors.inactive_fg,
+        bg = buf_colors.inactive_bg,
+      },
+      buffer_selected = {
+        fg = buf_colors.selected_fg,
+        bg = buf_colors.selected_bg,
+        bold = true,
+        italic = false,
+      },
+      buffer_visible = {
+        fg = buf_colors.fg,
+        bg = buf_colors.bg,
+      },
+      close_button = {
+        fg = buf_colors.inactive_fg,
+        bg = buf_colors.inactive_bg,
+      },
+      close_button_visible = {
+        fg = buf_colors.fg,
+        bg = buf_colors.bg,
+      },
+      close_button_selected = {
+        fg = buf_colors.selected_fg,
+        bg = buf_colors.selected_bg,
+      },
+      fill = {
+        bg = buf_colors.bg,
+      },
+      indicator_selected = {
+        fg = buf_colors.selected_fg,
+        bg = buf_colors.selected_bg,
+      },
+      separator = {
+        fg = buf_colors.bg,
+        bg = buf_colors.inactive_bg,
+      },
+      separator_selected = {
+        fg = buf_colors.bg,
+        bg = buf_colors.selected_bg,
+      },
+      separator_visible = {
+        fg = buf_colors.bg,
+        bg = buf_colors.bg,
+      },
+      tab = {
+        fg = buf_colors.inactive_fg,
+        bg = buf_colors.inactive_bg,
+      },
+      tab_selected = {
+        fg = buf_colors.selected_fg,
+        bg = buf_colors.selected_bg,
+      },
+      tab_close = {
+        fg = buf_colors.inactive_fg,
+        bg = buf_colors.inactive_bg,
+      },
+    },
     options = {
       close_command = function(n)
         Snacks.bufdelete(n)
@@ -172,6 +267,7 @@ return {
           filetype = "snacks_layout_box",
         },
       },
-    },
-  },
+    }
+    end
+  end,
 }

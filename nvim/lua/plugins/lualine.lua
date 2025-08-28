@@ -58,40 +58,81 @@ local mode = function()
   return icons[group][selector]
 end
 
-local colors = {
-  bg = "#161617",
-  fg = "#c9c7cd",
-  subtext1 = "#b4b1ba",
-  subtext2 = "#9f9ca6",
-  subtext3 = "#8b8693",
-  subtext4 = "#6c6874",
-  -- bg_dark = "#1A1B26",
-  bg_dark = "#1e1e2e",
-  black = "#27272a",
-  red = "#ea83a5",
-  green = "#90b99f",
-  yellow = "#e6b99d",
-  purple = "#aca1cf",
-  magenta = "#e29eca",
-  orange = "#f5a191",
-  blue = "#92a2d5",
-  cyan = "#85b5ba",
-  bright_black = "#353539",
-  bright_red = "#f591b2",
-  bright_green = "#9dc6ac",
-  bright_yellow = "#f0c5a9",
-  bright_purple = "#b9aeda",
-  bright_magenta = "#ecaad6",
-  bright_orange = "#ffae9f",
-  bright_blue = "#a6b6e9",
-  bright_cyan = "#99c9ce",
-  gray0 = "#18181a",
-  gray1 = "#1b1b1c",
-  gray2 = "#2a2a2c",
-  gray3 = "#313134",
-  gray4 = "#3b3b3e",
-  none = "NONE",
-}
+-- 动态获取主题颜色
+local function get_theme_colors()
+  -- 检测当前主题
+  local current_theme = vim.g.colors_name or "default"
+  
+  if current_theme == "catppuccin-mocha" or current_theme == "catppuccin" then
+    -- Catppuccin Mocha 配色
+    return {
+      bg = "#11111b",           -- catppuccin crust
+      fg = "#cdd6f4",           -- catppuccin text  
+      bg_dark = "#181825",      -- catppuccin mantle
+      black = "#45475a",        -- catppuccin surface1
+      red = "#f38ba8",          -- catppuccin red
+      green = "#a6e3a1",        -- catppuccin green
+      yellow = "#f9e2af",       -- catppuccin yellow
+      purple = "#cba6f7",       -- catppuccin mauve
+      magenta = "#f5c2e7",      -- catppuccin pink
+      orange = "#fab387",       -- catppuccin peach
+      blue = "#89b4fa",         -- catppuccin blue
+      cyan = "#94e2d5",         -- catppuccin teal
+      gray0 = "#11111b",        -- catppuccin crust
+      gray1 = "#181825",        -- catppuccin mantle
+      gray2 = "#313244",        -- catppuccin surface0
+      gray3 = "#45475a",        -- catppuccin surface1
+      gray4 = "#585b70",        -- catppuccin surface2
+      none = "NONE",
+    }
+  elseif current_theme == "tokyonight-moon" or string.find(current_theme or "", "tokyonight") then
+    -- TokyoNight Moon 配色
+    return {
+      bg = "#1e2030",           -- tokyonight bg
+      fg = "#c8d3f5",           -- tokyonight fg
+      bg_dark = "#1b1d2b",      -- tokyonight bg_dark
+      black = "#444a73",        -- tokyonight bg_highlight
+      red = "#ff757f",          -- tokyonight red
+      green = "#c3e88d",        -- tokyonight green
+      yellow = "#ffc777",       -- tokyonight yellow
+      purple = "#c099ff",       -- tokyonight purple
+      magenta = "#f5b2d4",      -- tokyonight magenta
+      orange = "#ff966c",       -- tokyonight orange
+      blue = "#82aaff",         -- tokyonight blue
+      cyan = "#86e1fc",         -- tokyonight cyan
+      gray0 = "#1e2030",        -- tokyonight bg
+      gray1 = "#1b1d2b",        -- tokyonight bg_dark
+      gray2 = "#2f334d",        -- tokyonight bg_highlight
+      gray3 = "#444a73",        -- tokyonight terminal_black
+      gray4 = "#545c7e",        -- tokyonight fg_gutter
+      none = "NONE",
+    }
+  else
+    -- 默认深色配色 - 更贴近终端背景
+    return {
+      bg = "#0d1117",           -- 更深的背景色，类似 GitHub Dark
+      fg = "#c9d1d9",           -- 主文本色
+      bg_dark = "#010409",      -- 极深背景色
+      black = "#21262d",        -- 深灰色
+      red = "#f85149",          -- 红色
+      green = "#56d364",        -- 绿色
+      yellow = "#e3b341",       -- 黄色
+      purple = "#a5a5f5",       -- 紫色
+      magenta = "#f5a5d1",      -- 品红色
+      orange = "#f0883e",       -- 橙色
+      blue = "#58a6ff",         -- 蓝色
+      cyan = "#39c5cf",         -- 青色
+      gray0 = "#0d1117",        -- 背景色
+      gray1 = "#161b22",        -- 稍浅背景
+      gray2 = "#21262d",        -- 中灰
+      gray3 = "#30363d",        -- 浅灰
+      gray4 = "#484f58",        -- 更浅灰
+      none = "NONE",
+    }
+  end
+end
+
+local colors = get_theme_colors()
 
 local modecolor = {
   n = colors.red,
@@ -504,6 +545,19 @@ return {
       end
       opts.options.theme = auto
       require("lualine").setup(opts)
+      
+      -- 主题切换时自动更新状态栏颜色
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "*",
+        callback = function()
+          -- 延迟更新以确保主题完全加载
+          vim.defer_fn(function()
+            colors = get_theme_colors()
+            require("lualine").setup(opts)
+          end, 100)
+        end,
+      })
+      
       local lualine_nvim_opts = require("lualine.utils.nvim_opts")
       local base_set = lualine_nvim_opts.set
 
