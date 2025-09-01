@@ -52,7 +52,7 @@ return {
     opts.inlay_hints = {
       enabled = false,
     }
-    -- opts.servers = opts.servers or {}
+    opts.servers = opts.servers or {}
     opts.servers.yamlls = {
       cmd = { "yaml-language-server", "--stdio" },
       filetypes = { "yaml", "gha", "dependabot", "yaml", "yaml.docker-compose", "yaml.gitlab" },

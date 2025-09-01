@@ -52,7 +52,7 @@ return {
       
       -- Mappings
       vim.g.vimtex_mappings_enabled = 1
-      vim.g.vimtex_mappings_prefix = "<localleader>l"
+      vim.g.vimtex_mappings_prefix = "<leader>l"
       
       -- Disable default key mappings that might conflict
       vim.g.vimtex_mappings_disable = {
@@ -61,13 +61,13 @@ return {
     end,
     ft = { "tex", "bib" },
     keys = {
-      { "<localleader>ll", "<cmd>VimtexCompile<cr>", desc = "编译LaTeX", ft = "tex" },
-      { "<localleader>lv", "<cmd>VimtexView<cr>", desc = "查看PDF", ft = "tex" },
-      { "<localleader>ls", "<cmd>VimtexStop<cr>", desc = "停止编译", ft = "tex" },
-      { "<localleader>lc", "<cmd>VimtexClean<cr>", desc = "清理辅助文件", ft = "tex" },
-      { "<localleader>le", "<cmd>VimtexErrors<cr>", desc = "查看错误", ft = "tex" },
-      { "<localleader>lt", "<cmd>VimtexTocToggle<cr>", desc = "切换目录", ft = "tex" },
-      { "<localleader>lm", "<cmd>VimtexImapsList<cr>", desc = "数学符号列表", ft = "tex" },
+      { "<leader>ll", "<cmd>w<cr><cmd>VimtexCompile<cr>", desc = "保存并编译LaTeX", ft = "tex" },
+      { "<leader>lv", "<cmd>VimtexView<cr>", desc = "查看PDF", ft = "tex" },
+      { "<leader>ls", "<cmd>VimtexStop<cr>", desc = "停止编译", ft = "tex" },
+      { "<leader>lc", "<cmd>VimtexClean<cr>", desc = "清理辅助文件", ft = "tex" },
+      { "<leader>le", "<cmd>VimtexErrors<cr>", desc = "查看错误", ft = "tex" },
+      { "<leader>lt", "<cmd>VimtexTocToggle<cr>", desc = "切换目录", ft = "tex" },
+      { "<leader>lm", "<cmd>VimtexImapsList<cr>", desc = "数学符号列表", ft = "tex" },
     },
   },
   {

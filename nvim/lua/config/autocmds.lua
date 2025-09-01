@@ -65,6 +65,16 @@ aucmd("TermOpen", {
 
 vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
+-- Auto save for LaTeX files
+aucmd({ "TextChanged", "TextChangedI" }, {
+  pattern = { "*.tex", "*.bib" },
+  callback = function()
+    if vim.bo.buftype == "" then
+      vim.cmd("silent! write")
+    end
+  end,
+})
+
 aucmd("filetype", {
   pattern = "neotest-output",
   callback = function()

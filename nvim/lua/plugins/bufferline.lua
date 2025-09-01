@@ -267,7 +267,7 @@ return {
           filetype = "snacks_layout_box",
         },
       },
-    }
-    end
+    },
+  }
   end,
 }
